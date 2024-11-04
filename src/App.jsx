@@ -4,15 +4,37 @@ import React, { useState } from 'react';
 export default function App() {
   const[box, setBox] = useState(Array(9).fill(null));
 const [player, setPlayer]= useState(false);
+const [winner, setWinner] = useState(null);
+const [draw , setDraw ] =useState(false);
 const handleToggle = (index)=>{
   const newBox = box.slice();
   newBox[index] = player ? 'X' : 'O';
   setBox(newBox);
   setPlayer(!player);
+
+  const calculatedWinner = Winner();
+  if(calculatedWinner)
+    setWinner(calculatedWinner);
+  else{
+    setDraw(true);
+  }
 }
+const Winner= () =>{
+  const boxes =[ [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], 
+  [0, 4, 8], [2, 4, 6] ];
+  for (let i = 0; i<boxes.length; i++){
+  const  [a , b ,c] = boxes[i];
+    if (box[a] && box[a] === box[b] && box[a] === box[c]) {
+      return box[a]; 
+  }
+}}
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-950 to-purple-900">
-      <div className="text-2xl font-semibold text-white mb-6">Player {player? 'X' : 'O' }</div>
+      <div className="text-3xl font-semibold text-white mb-6">
+        {winner? `Winner is ${winner} ` : draw ? 'Its a Draw' : ''}</div>
+      <div className="text-2xl font-semibold text-white mb-6">
+        Player {player? 'X' : 'O' }</div>
       <div className="grid grid-cols-3 gap-2 p-4 bg-white bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg">
        {
         box.map((value, index)=>(
