@@ -5,7 +5,7 @@ export default function App() {
   const[box, setBox] = useState(Array(9).fill(null));
 const [player, setPlayer]= useState(false);
 const [winner, setWinner] = useState(null);
-
+const [draw , setDraw] =useState('');
 const handleToggle = (index)=>{
   const newBox = box.slice();
   newBox[index] = player ? 'X' : 'O';
@@ -16,6 +16,9 @@ const handleToggle = (index)=>{
   if(calculatedWinner){
     setWinner(calculatedWinner);
   }
+ else if(!newBox.includes(null) ){
+  setDraw('Its a Draw!')
+ }
 }
 const Winner= (box) =>{
   const boxes =[ [0, 1, 2], [3, 4, 5], [6, 7, 8], 
@@ -30,7 +33,8 @@ const Winner= (box) =>{
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-950 to-purple-900">
       <div className="text-3xl font-semibold text-white mb-6">
-        {winner? `Winner is ${winner} ` :  'Draw'}
+        {winner && `Winner is ${winner} ` }
+        {draw  }
         </div>
       <div className="text-2xl font-semibold text-white mb-6">
         Player {player? 'X' : 'O' }</div>
