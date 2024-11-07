@@ -6,6 +6,7 @@ export default function App() {
 const [player, setPlayer]= useState(false);
 const [winner, setWinner] = useState(null);
 const [draw , setDraw] =useState('');
+const [showModal , setshowModal] = useState(true);
 const handleToggle = (index)=>{
   const newBox = box.slice();
   newBox[index] = player ? 'X' : 'O';
@@ -20,6 +21,9 @@ const handleToggle = (index)=>{
   setDraw('Its a Draw!')
  }
 }
+const handleShow = ()=>{
+  setshowModal(false);
+}
 const Winner= (box) =>{
   const boxes =[ [0, 1, 2], [3, 4, 5], [6, 7, 8], 
   [0, 3, 6], [1, 4, 7], [2, 5, 8], 
@@ -31,7 +35,29 @@ const Winner= (box) =>{
   }
 }}
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-950 to-purple-900">
+    <>
+  {
+    showModal && (
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-70">
+        <div className='w-1/ bg-pink-900 p-5 rounded-3xl'>
+  <h2 class="text-lg flex items-center p-2 justify-center font-bold text-orange-100">WelCome to Tic-Tac-Toe</h2>
+  <input type='text' className='p-3 rounded-lg w-full' placeholder='Enter username'/> 
+
+  <div class="mt-4 flex gap-2">
+    <p className='p-2 text-xl font-bold text-amber-100'>Select Value:</p>
+    <button type="button" className="rounded bg-green-50 px-4 py-2 text-sm font-medium text-green-600">
+      X
+    </button>
+
+    <button type="button" className="rounded bg-green-50 px-4 py-2 text-sm font-medium text-green-600">
+     O
+    </button>
+  </div>
+  </div>
+</div>
+    )
+  }
+    <div className="h-screen  flex flex-col items-center justify-center bg-gradient-to-r from-blue-950 to-purple-900">
       <div className="text-3xl font-semibold text-white mb-6">
         {winner && `Winner is ${winner} ` }
         {draw  }
@@ -50,5 +76,6 @@ const Winner= (box) =>{
        }
       </div>
     </div>
+    </>
   )
 }
