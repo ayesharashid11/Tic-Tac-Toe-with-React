@@ -16,10 +16,10 @@ export default function App() {
 
   const handleToggle = (index) => {
     const newBox = box.slice();
-    newBox[index] = player ? 'X' : 'O';
+    newBox[index] = userSymbol;
     setBox(newBox);
     setPlayer(!player);
-
+    computerMove(newBox)
     const calculatedWinner = Winner(newBox);
     if (calculatedWinner) {
       setWinner(calculatedWinner);
@@ -28,6 +28,18 @@ export default function App() {
       setDraw('Its a Draw!')
     }
   }
+  const computerMove = (box) =>{
+    const emptyArray = [] ;
+    for (let i = 0; i < box.length; i++) {
+      if(box[i] == null){
+        emptyArray.push(i);
+      }
+      const randomIndex = emptyArray[(Math.floor(Math.random() * box.length))]
+      box[randomIndex] =  computerSymbol;
+      setBox(box)
+      setPlayer(true);
+  }
+}
 
   const Winner = (box) => {
     const boxes = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
