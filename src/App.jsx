@@ -34,11 +34,12 @@ export default function App() {
       if(box[i] == null){
         emptyArray.push(i);
       }
-      const randomIndex = emptyArray[(Math.floor(Math.random() * box.length))]
+    }
+      const randomIndex = emptyArray[(Math.floor(Math.random() * emptyArray.length))]
       box[randomIndex] =  computerSymbol;
       setBox(box)
       setPlayer(true);
-  }
+  
 }
 
   const Winner = (box) => {
