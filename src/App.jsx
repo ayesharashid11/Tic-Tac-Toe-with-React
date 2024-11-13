@@ -8,8 +8,8 @@ export default function App() {
   const [draw, setDraw] = useState('');
   const [showModal, setshowModal] = useState(true);
   const [username, setusername] = useState('');
-  const [userSymbol, setUserSymbol] = useState(''); 
-  const computerSymbol = userSymbol == 'X'? 'O' :'X'
+  const [userSymbol, setUserSymbol] = useState('');
+  const computerSymbol = userSymbol == 'X' ? 'O' : 'X'
   const handleShow = () => {
     setshowModal(false);
   }
@@ -19,28 +19,30 @@ export default function App() {
     newBox[index] = userSymbol;
     setBox(newBox);
     setPlayer(!player);
-    computerMove(newBox)
+
     const calculatedWinner = Winner(newBox);
     if (calculatedWinner) {
       setWinner(calculatedWinner);
     }
     else if (!newBox.includes(null)) {
       setDraw('Its a Draw!')
+    } else {
+      setTimeout(() => computerMove(newBox), 500);
     }
   }
-  const computerMove = (box) =>{
-    const emptyArray = [] ;
+  const computerMove = (box) => {
+    const emptyArray = [];
     for (let i = 0; i < box.length; i++) {
-      if(box[i] == null){
+      if (box[i] == null) {
         emptyArray.push(i);
       }
     }
-      const randomIndex = emptyArray[(Math.floor(Math.random() * emptyArray.length))]
-      box[randomIndex] =  computerSymbol;
-      setBox(box)
-      setPlayer(true);
-  
-}
+    const randomIndex = emptyArray[(Math.floor(Math.random() * emptyArray.length))]
+    box[randomIndex] = computerSymbol;
+    setBox(box)
+    setPlayer(true);
+
+  }
 
   const Winner = (box) => {
     const boxes = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -61,26 +63,26 @@ export default function App() {
             <div className='w-1/ bg-pink-900 p-5 rounded-3xl'>
               <h2 className="text-lg flex items-center p-2 justify-center font-bold text-orange-100">WelCome to Tic-Tac-Toe</h2>
               <input type='text' className='p-3 rounded-lg w-full' placeholder='Enter username'
-              onChange={(e)=> setusername(e.target.value)} />
+                onChange={(e) => setusername(e.target.value)} />
 
               <div className="mt-4 flex gap-2">
                 <p className='p-2 text-xl font-bold text-amber-100'>Select Value:</p>
-                <button type="button" onClick={()=>setUserSymbol('X')}
-                className={`rounded bg-green-50 px-4 py-2 text-sm font-medium 
+                <button type="button" onClick={() => setUserSymbol('X')}
+                  className={`rounded bg-green-50 px-4 py-2 text-sm font-medium 
                 ${userSymbol === 'X' ? 'bg-green-600 text-white' : 'bg-green-50 text-green-600'}`}>
                   X
                 </button>
-                <button type="button" onClick={()=>setUserSymbol('O')}
-                className={`rounded bg-green-50 px-4 py-2 text-sm font-medium 
+                <button type="button" onClick={() => setUserSymbol('O')}
+                  className={`rounded bg-green-50 px-4 py-2 text-sm font-medium 
                   ${userSymbol === 'O' ? 'bg-green-600 text-white' : 'bg-green-50 text-green-600'}`}>
                   O
                 </button>
               </div>
               <button
-              onClick={handleShow}
-              className="mt-4 bg-sky-900 text-white px-4 py-2 rounded-lg"  >
-              Start Game
-            </button>
+                onClick={handleShow}
+                className="mt-4 bg-sky-900 text-white px-4 py-2 rounded-lg"  >
+                Start Game
+              </button>
             </div>
           </div>
         )
@@ -91,7 +93,13 @@ export default function App() {
           {draw}
         </div>
         <div className="text-2xl font-semibold text-white mb-6">
-          Player  {username } - {player ? userSymbol : computerSymbol}</div>
+          {player ? (
+            <span>{username} - {userSymbol}'s Turn</span>
+          ) : (
+            <span>Computer's Turn - {computerSymbol}</span>
+          )}
+
+        </div>
         <div className="grid grid-cols-3 gap-2 p-4 bg-white bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg">
           {
             box.map((value, index) => (
